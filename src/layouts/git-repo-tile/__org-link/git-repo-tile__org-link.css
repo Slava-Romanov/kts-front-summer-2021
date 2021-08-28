@@ -1,0 +1,13 @@
+.git-repo-tile__org-link {
+    font-size: 14px;
+    color: var(--primary_color);
+}
+
+.git-repo-tile__org-link a {
+    color: var(--primary_color);
+    text-decoration: none;
+}
+
+.git-repo-tile__org-link a:hover {
+    color: var(--link_active_color);
+}
