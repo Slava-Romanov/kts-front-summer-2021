@@ -2,15 +2,12 @@
     padding: 16px;
     border-radius: 6px;
     border: 0;
-}
-
-.search-button:enabled {
     background: var(--button_primary_background);
-    cursor: pointer;
 }
 
 .search-button:hover:enabled {
     opacity: 0.7;
+    cursor: pointer;
 }
 
 .search-button:disabled {

@@ -1,7 +1,0 @@
-.repos-list__repos {
-    display: grid;
-    row-gap: 12px;
-    justify-items: stretch;
-    max-height: 400px;
-    overflow: scroll;
-}

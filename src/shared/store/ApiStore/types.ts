@@ -16,7 +16,7 @@ export type RequestParams<ReqT> = {
      * - Для POST-запроса данные преобразуются к формату JSON и добавляются в тело запроса (необязательное требование)
      */
     data: ReqT;
-}
+};
 
 // Перечисление статусов ответа
 export enum StatusHTTP {
@@ -26,20 +26,20 @@ export enum StatusHTTP {
 // Ответ API
 export type ApiResponse<SuccessT, ErrorT> =
     | {
-    success: true;
-    data: SuccessT;
-    status: number;
-}
+          success: true;
+          data: SuccessT;
+          status: number;
+      }
     | {
-    success: false;
-    data: ErrorT;
-    status: number;
-}
-| {
-    success: false;
-    data: any;
-    status: StatusHTTP;
-};
+          success: false;
+          data: ErrorT;
+          status: number;
+      }
+    | {
+          success: false;
+          data: any;
+          status: StatusHTTP;
+      };
 
 // Интерфейс для класса, с помощью которого можно делать запросы к API
 export interface IApiStore {
@@ -47,5 +47,7 @@ export interface IApiStore {
     readonly baseUrl: string;
 
     // Метод, с помощью которого делается запрос. TODO: реализовать в классе ApiStore
-    request<SuccessT, ErrorT = any, ReqT = {}>(params: RequestParams<ReqT>): Promise<ApiResponse<SuccessT, ErrorT>>
+    request<SuccessT, ErrorT = any, ReqT = {}>(
+        params: RequestParams<ReqT>
+    ): Promise<ApiResponse<SuccessT, ErrorT>>;
 }
