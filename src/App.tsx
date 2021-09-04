@@ -1,8 +1,9 @@
 import React from 'react';
 
+import RepoSearchPage from './pages/RepoSearchPage';
+
 function App() {
-    const sayHello: string = 'Hello!';
-    return <div className='App'></div>;
+    return <RepoSearchPage />;
 }
 
 export default App;

@@ -1,4 +1,4 @@
-.git-repo-tile {
+.repo-tile {
     font-family: 'Roboto', sans-serif;
     width: 100%;
     height: 104px;
@@ -13,11 +13,11 @@
     cursor: pointer;
 }
 
-.git-repo-tile:hover {
+.repo-tile:hover {
     box-shadow: 0 2px 6px var(--repo-tile_hover_shadow);
 }
 
-.git-repo-tile__title {
+.repo-tile__title {
     font-weight: bold;
     font-size: 16px;
 
@@ -26,57 +26,54 @@
     text-overflow: ellipsis;
 }
 
-.git-repo-tile__org-link {
+.repo-tile__org-link {
     font-size: 14px;
     color: var(--primary_color);
 }
 
-.git-repo-tile__org-link {
+.repo-tile__org-link {
     color: var(--primary_color);
     text-decoration: none;
 }
 
-.git-repo-tile__org-link:hover {
+.repo-tile__org-link:hover {
     color: var(--link_active_color);
 }
 
-.git-repo-tile__content {
+.repo-tile__content {
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.git-repo-tile__content > * {
+.repo-tile__content > * {
     margin-bottom: 4px;
 }
 
-.git-repo-tile__avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+.repo-tile__avatar {
     margin-right: 12px;
     flex-shrink: 0;
 }
 
-.git-repo-tile__additional-info {
+.repo-tile__additional-info {
     font-size: 14px;
     color: var(--primary_color);
     margin-bottom: 0;
 }
 
-.git-repo-tile__additional-info {
+.repo-tile__additional-info {
     display: inline-block;
 }
 
-.git-repo-tile__additional-info > * {
+.repo-tile__additional-info > * {
     vertical-align: middle;
 }
 
-.git-repo-tile__icon-raiting {
+.repo-tile__icon-raiting {
     margin-left: 0;
     margin-right: 4px;
 }
 
-.git-repo-tile__date-info {
+.repo-tile__date-info {
     margin-left: 20px;
 }

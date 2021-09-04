@@ -4,9 +4,14 @@ export type GetOrganizationReposListParams = {
     organizationName: string;
 };
 
+export type GetReposBranchesListParams = {
+    ownerName: string;
+    repoName: string;
+};
+
 export type GithubRepoOwner = {
     id: number;
-    url: string;
+    html_url: string;
     avatar_url: string;
     login: string;
 };
@@ -16,7 +21,12 @@ export type RepoItem = {
     url: string;
     name: string;
     stargazers_count: number;
+    updated_at: string;
     owner: GithubRepoOwner;
+};
+
+export type BranchItem = {
+    name: string;
 };
 
 /** Интерфейс класса для работы с GitHub API
@@ -29,5 +39,9 @@ export type RepoItem = {
 export interface IGitHubStore {
     getOrganizationReposList(
         params: GetOrganizationReposListParams
+    ): Promise<ApiResponse<RepoItem[], any>>;
+
+    getReposBranchesList(
+        params: GetReposBranchesListParams
     ): Promise<ApiResponse<RepoItem[], any>>;
 }

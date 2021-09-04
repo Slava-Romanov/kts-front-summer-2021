@@ -17,7 +17,6 @@
     row-gap: 12px;
     grid-template-columns: 100%;
     justify-items: stretch;
-    max-height: 400px;
+    max-height: 800px;
     overflow: scroll;
 }
-
