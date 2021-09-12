@@ -6,15 +6,15 @@ import Button from '@components/Button/Button';
 import Input from '@components/Input/Input';
 import RepoTile from '@components/RepoTile/RepoTile';
 import SearchIcon from '@components/SearchIcon';
+import { ApiResponse } from '@shared/store/ApiStore/types';
+import GitHubStore from '@store/GitHubStore';
+import { RepoItem } from '@store/GitHubStore/types';
 
-import { ApiResponse } from '../../shared/store/ApiStore/types';
-import GitHubStore from '../../store/GitHubStore';
-import { RepoItem } from '../../store/GitHubStore/types';
 import RepoBranchesDrawer from './components/RepoBranchesDrawer';
 
 const gitHubStore = new GitHubStore();
 
-const RepoSearchPage = (): JSX.Element => {
+const RepoSearchPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
     const [reposList, setReposList] = useState<RepoItem[]>([]);
@@ -39,9 +39,11 @@ const RepoSearchPage = (): JSX.Element => {
         }
     };
 
-    const onClickRepo = (repo: RepoItem): void => {
-        setSelectedRepo(repo);
-    };
+    const onClickRepo =
+        (repo: RepoItem): (() => void) =>
+        (): void => {
+            setSelectedRepo(repo);
+        };
 
     const onClose = () => {
         setSelectedRepo(null);
@@ -55,8 +57,8 @@ const RepoSearchPage = (): JSX.Element => {
                 return (
                     <RepoTile
                         key={repo.id}
-                        RepoItem={repo}
-                        onClick={() => onClickRepo(repo)}
+                        repoItem={repo}
+                        onClick={onClickRepo(repo)}
                     />
                 );
             });
@@ -77,7 +79,11 @@ const RepoSearchPage = (): JSX.Element => {
                 </Button>
             </div>
             <div className={'repos-list__repos'}>{repoTiles()}</div>
-            <RepoBranchesDrawer selectedRepo={selectedRepo} onClose={onClose} />
+            <RepoBranchesDrawer
+                selectedRepo={selectedRepo}
+                onClose={onClose}
+                gitHubStore={gitHubStore}
+            />
         </div>
     );
 };

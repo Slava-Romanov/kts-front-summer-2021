@@ -1,8 +1,8 @@
 // Здесь необходимо продемонстрировать создание и использование GitHubStore
 
-import { ApiResponse } from '../shared/store/ApiStore/types';
-import GitHubStore from '../store/GitHubStore';
-import { RepoItem } from '../store/GitHubStore/types';
+import { ApiResponse } from '@shared/store/ApiStore/types';
+import GitHubStore from '@store/GitHubStore';
+import { RepoItem } from '@store/GitHubStore/types';
 
 const gitHubStore = new GitHubStore();
 

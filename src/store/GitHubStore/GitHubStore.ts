@@ -1,5 +1,6 @@
-import ApiStore from '../../shared/store/ApiStore';
-import { ApiResponse, HTTPMethod } from '../../shared/store/ApiStore/types';
+import ApiStore from '@shared/store/ApiStore';
+import { ApiResponse, HTTPMethod } from '@shared/store/ApiStore/types';
+
 import {
     GetOrganizationReposListParams,
     GetReposBranchesListParams,
