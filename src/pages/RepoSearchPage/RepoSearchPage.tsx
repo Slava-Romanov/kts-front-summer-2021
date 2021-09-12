@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
 
-import './RepoSearchPage.css';
-
 import Button from '@components/Button/Button';
 import Input from '@components/Input/Input';
 import RepoTile from '@components/RepoTile/RepoTile';
 import SearchIcon from '@components/SearchIcon';
 import { ApiResponse } from '@shared/store/ApiStore/types';
-import GitHubStore from '@store/GitHubStore';
 import { RepoItem } from '@store/GitHubStore/types';
+import { useHistory } from 'react-router-dom';
 
-import RepoBranchesDrawer from './components/RepoBranchesDrawer';
+import { useStoreContext } from '../../App';
+import styles from './RepoSearchPage.module.scss';
 
-const gitHubStore = new GitHubStore();
+type ReposContextType = {
+    reposList: RepoItem[];
+    isLoading: boolean;
+    setIsLoading: (e: boolean) => void;
+};
+
+const ReposContext = React.createContext<ReposContextType>({
+    reposList: [] as RepoItem[],
+    isLoading: false,
+    setIsLoading: (e: boolean) => {}
+} as ReposContextType);
+const Provider = ReposContext.Provider;
+export const useReposContext = () => React.useContext(ReposContext);
 
 const RepoSearchPage: React.FC = () => {
+    const storeContext = useStoreContext();
+    const history = useHistory();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
     const [reposList, setReposList] = useState<RepoItem[]>([]);
-    const [selectedRepo, setSelectedRepo] = useState<RepoItem | null>(null);
 
     const searchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
@@ -28,7 +40,7 @@ const RepoSearchPage: React.FC = () => {
     const searchRepo = () => {
         if (inputValue !== '') {
             setIsLoading(true);
-            gitHubStore
+            storeContext?.store
                 .getOrganizationReposList({
                     organizationName: inputValue
                 })
@@ -42,12 +54,8 @@ const RepoSearchPage: React.FC = () => {
     const onClickRepo =
         (repo: RepoItem): (() => void) =>
         (): void => {
-            setSelectedRepo(repo);
+            history.push(`/repos/${repo.owner.login}/${repo.name}`);
         };
-
-    const onClose = () => {
-        setSelectedRepo(null);
-    };
 
     const repoTiles = () => {
         if (isLoading) {
@@ -55,11 +63,16 @@ const RepoSearchPage: React.FC = () => {
         } else if (reposList.length) {
             return reposList.map((repo: RepoItem): JSX.Element => {
                 return (
+                    // <Link
+                    //     to={`/repos/${repo.owner.login}/${repo.name}`}
+                    //     key={repo.id}
+                    // >
                     <RepoTile
-                        key={repo.id}
                         repoItem={repo}
+                        key={repo.id}
                         onClick={onClickRepo(repo)}
                     />
+                    // </Link>
                 );
             });
         }
@@ -67,24 +80,23 @@ const RepoSearchPage: React.FC = () => {
     };
 
     return (
-        <div className={'repos-list'}>
-            <div className={'repos-list__search'}>
-                <Input
-                    value={inputValue}
-                    placeholder='Введите название организации'
-                    onChange={searchOnChange}
-                />
-                <Button onClick={searchRepo}>
-                    <SearchIcon />
-                </Button>
+        <Provider value={{ reposList, isLoading, setIsLoading }}>
+            <div className={`${styles['repos-list']}`}>
+                <div className={`${styles['repos-list__search']}`}>
+                    <Input
+                        value={inputValue}
+                        placeholder='Введите название организации'
+                        onChange={searchOnChange}
+                    />
+                    <Button onClick={searchRepo}>
+                        <SearchIcon />
+                    </Button>
+                </div>
+                <div className={`${styles['repos-list__repos']}`}>
+                    {repoTiles()}
+                </div>
             </div>
-            <div className={'repos-list__repos'}>{repoTiles()}</div>
-            <RepoBranchesDrawer
-                selectedRepo={selectedRepo}
-                onClose={onClose}
-                gitHubStore={gitHubStore}
-            />
-        </div>
+        </Provider>
     );
 };
 
