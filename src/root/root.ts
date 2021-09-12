@@ -10,6 +10,7 @@ const EXAMPLE_ORGANIZATION = 'ktsstudio';
 
 gitHubStore
     .getOrganizationReposList({
+        page: 1,
         organizationName: EXAMPLE_ORGANIZATION
     })
     .then((result: ApiResponse<RepoItem[], any>) => {
