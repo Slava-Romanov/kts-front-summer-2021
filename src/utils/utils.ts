@@ -1,4 +1,3 @@
-export const dateFormat = (date: string) => {
-    const dateF: Date = new Date(date);
-    return dateF.toDateString();
+export const dateFormat = (date: Date) => {
+    return date.toDateString();
 };

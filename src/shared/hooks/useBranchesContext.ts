@@ -1,14 +1,15 @@
 import { Context, useContext } from 'react';
 
+import BranchListStore from '@store/BranchListStore';
 import ReposListStore from '@store/ReposListStore';
 
 import { GithubContextType } from '../../App';
 
-const useReposContext = (
+const useBranchesContext = (
     context: Context<GithubContextType | null>
-): ReposListStore | undefined => {
+): BranchListStore | undefined => {
     const storeContext = useContext(context);
-    return storeContext?.repoList;
+    return storeContext?.branchList;
 };
 
-export default useReposContext;
+export default useBranchesContext;

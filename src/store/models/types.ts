@@ -1,4 +1,4 @@
-import { ApiResponse } from '@shared/store/ApiStore/types';
+import { ApiResponse } from '@shared/store/RootStore/ApiStore/types';
 
 export type GetOrganizationReposListParams = {
     organizationName: string;
@@ -38,11 +38,9 @@ export type BranchItem = {
  * Выберите любой запрос из публичного API GitHub.
  */
 export interface IGitHubStore {
-    getOrganizationReposList(
+    getOrganizationReposList?(
         params: GetOrganizationReposListParams
-    ): Promise<ApiResponse<RepoItem[], any>>;
+    ): Promise<void>;
 
-    getReposBranchesList(
-        params: GetReposBranchesListParams
-    ): Promise<ApiResponse<RepoItem[], any>>;
+    getReposBranchesList?(params: GetReposBranchesListParams): Promise<void>;
 }

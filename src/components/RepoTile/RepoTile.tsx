@@ -2,33 +2,34 @@ import React from 'react';
 
 import Avatar from '@components/Avatar';
 import StarIcon from '@components/StarIcon';
-import { RepoItem } from '@store/GitHubStore/types';
+import { GithubRepoItemModel } from '@store/models/github/githubRepoItem';
+import { RepoItem } from '@store/models/types';
 import { dateFormat } from '@utils/utils';
 
 import styles from './RepoTile.module.scss';
 
 export type RepoTileProps = {
-    repoItem: RepoItem;
+    repoItem: GithubRepoItemModel;
     onClick: (e: React.MouseEvent) => void;
 };
 
 const RepoTile: React.FC<RepoTileProps> = ({
     repoItem: {
-        owner: { avatar_url, html_url, login },
+        owner: { avatarUrl, htmlUrl, login },
         name,
-        stargazers_count,
-        updated_at
+        stargazersCount,
+        updatedAt
     },
     onClick
 }): JSX.Element => {
     return (
         <div className={`${styles.repoTile}`} onClick={onClick}>
             <div className={`${styles.repoTile__avatar}`}>
-                <Avatar src={avatar_url} letter={login.slice(1)} />
+                <Avatar src={avatarUrl} letter={login.slice(1)} />
             </div>
             <div className={`${styles.repoTile__content}`}>
                 <div className={`${styles.repoTile__title}`}>{name}</div>
-                <a className={`${styles.repoTile__orgLink}`} href={html_url}>
+                <a className={`${styles.repoTile__orgLink}`} href={htmlUrl}>
                     {login}
                 </a>
                 <div className={`${styles.repoTile__additionalInfo}`}>
@@ -36,10 +37,10 @@ const RepoTile: React.FC<RepoTileProps> = ({
                         <StarIcon />
                     </span>
                     <span className={`${styles.repoTile__raitingInfo}`}>
-                        {stargazers_count}
+                        {stargazersCount}
                     </span>
                     <span className={`${styles.repoTile__dateInfo}`}>
-                        {`Updated ${dateFormat(updated_at)}`}
+                        {`Updated ${dateFormat(updatedAt)}`}
                     </span>
                 </div>
             </div>
