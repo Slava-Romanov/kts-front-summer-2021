@@ -1,3 +1,4 @@
+import { urls } from '@config/urls';
 import ApiStore from '@shared/store/ApiStore';
 import { ApiResponse, HTTPMethod } from '@shared/store/ApiStore/types';
 
@@ -8,10 +9,8 @@ import {
     RepoItem
 } from './types';
 
-const BASE_URL = 'https://api.github.com';
-
 export default class GitHubStore implements IGitHubStore {
-    private readonly apiStore = new ApiStore(BASE_URL);
+    private readonly apiStore = new ApiStore(urls.BASE_URL);
 
     async getOrganizationReposList(
         params: GetOrganizationReposListParams
@@ -23,7 +22,7 @@ export default class GitHubStore implements IGitHubStore {
                 page: params.page
             },
             headers: {},
-            endpoint: `/orgs/${params.organizationName}/repos`
+            endpoint: urls.api.orgRepos(params.organizationName)
         });
     }
 
@@ -34,7 +33,7 @@ export default class GitHubStore implements IGitHubStore {
             method: HTTPMethod.GET,
             data: {},
             headers: {},
-            endpoint: `/repos/${params.ownerName}/${params.repoName}/branches`
+            endpoint: urls.api.repoBranches(params.ownerName, params.repoName)
         });
     }
 }

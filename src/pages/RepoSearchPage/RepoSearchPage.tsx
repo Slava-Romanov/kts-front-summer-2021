@@ -4,64 +4,39 @@ import Button from '@components/Button/Button';
 import Input from '@components/Input/Input';
 import RepoTile from '@components/RepoTile/RepoTile';
 import SearchIcon from '@components/SearchIcon';
-import { ApiResponse } from '@shared/store/ApiStore/types';
+import { urls } from '@config/urls';
+import useReposContext from '@shared/hooks/useReposContext';
 import { RepoItem } from '@store/GitHubStore/types';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 
-import { useStoreContext } from '../../App';
+import { StoreContext } from '../../App';
+import RepoBranchesDrawer from './RepoBranchesDrawer';
 import styles from './RepoSearchPage.module.scss';
 
-type ReposContextType = {
-    reposList: RepoItem[];
-    isLoading: boolean;
-    setIsLoading: (e: boolean) => void;
-};
-
-const ReposContext = React.createContext<ReposContextType>({
-    reposList: [] as RepoItem[],
-    isLoading: false,
-    setIsLoading: (e: boolean) => {}
-} as ReposContextType);
-const Provider = ReposContext.Provider;
-export const useReposContext = () => React.useContext(ReposContext);
-
 const RepoSearchPage: React.FC = () => {
-    const storeContext = useStoreContext();
     const history = useHistory();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
     const [page, setPage] = useState<number>(1);
-    const [reposList, setReposList] = useState<RepoItem[]>([]);
+
+    const { isLoading, reposList, loadRepos } = useReposContext(StoreContext);
 
     const searchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         setInputValue(value);
     };
 
-    const searchRepo = () => {
+    const searchRepo = async () => {
         if (inputValue !== '') {
-            setIsLoading(true);
-            loadRepos();
+            setPage(1);
+            await loadRepos(inputValue, 1);
         }
-    };
-
-    const loadRepos = () => {
-        storeContext?.store
-            .getOrganizationReposList({
-                organizationName: inputValue,
-                page
-            })
-            .then((result: ApiResponse<RepoItem[], any>) => {
-                setReposList(result.data);
-                setIsLoading(false);
-            });
     };
 
     const onClickRepo =
         (repo: RepoItem): (() => void) =>
         (): void => {
-            history.push(`/repos/${repo.owner.login}/${repo.name}`);
+            history.push(urls.router.openRepo(repo.owner.login, repo.name));
         };
 
     const repoTiles = () => {
@@ -75,12 +50,6 @@ const RepoSearchPage: React.FC = () => {
                         key={repo.id}
                         onClick={onClickRepo(repo)}
                     />
-                    // <Link
-                    //     to={`/repos/${repo.owner.login}/${repo.name}`}
-                    //     key={repo.id}
-                    // >
-
-                    // </Link>
                 );
             });
         }
@@ -89,13 +58,13 @@ const RepoSearchPage: React.FC = () => {
 
     const nextRepos = async () => {
         setPage(page + 1);
-        await loadRepos();
+        await loadRepos(inputValue, page + 1);
     };
 
     return (
-        <Provider value={{ reposList, isLoading, setIsLoading }}>
-            <div className={`${styles['repos-list']}`}>
-                <div className={`${styles['repos-list__search']}`}>
+        <>
+            <div className={`${styles.reposList}`}>
+                <div className={`${styles.reposList__search}`}>
                     <Input
                         value={inputValue}
                         placeholder='Введите название организации'
@@ -105,7 +74,7 @@ const RepoSearchPage: React.FC = () => {
                         <SearchIcon />
                     </Button>
                 </div>
-                <div className={`${styles['repos-list__repos']}`}>
+                <div className={`${styles.reposList__repos}`}>
                     {reposList.length ? (
                         <InfiniteScroll
                             hasMore={true}
@@ -118,7 +87,14 @@ const RepoSearchPage: React.FC = () => {
                     ) : null}
                 </div>
             </div>
-        </Provider>
+            <Switch>
+                <Route
+                    exact
+                    path='/repos/:owner/:repo'
+                    component={RepoBranchesDrawer}
+                />
+            </Switch>
+        </>
     );
 };
 

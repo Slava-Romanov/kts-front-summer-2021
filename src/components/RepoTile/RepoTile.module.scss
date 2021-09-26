@@ -1,6 +1,6 @@
 @import 'src/styles/variables';
 
-.repo-tile {
+.repoTile {
     font-family: 'Roboto', sans-serif;
     width: 100%;
     height: 104px;
@@ -16,7 +16,7 @@
     cursor: pointer;
 
     &:hover {
-        box-shadow: 0 2px 6px $repo-tile_hover_shadow;
+        box-shadow: 0 2px 6px $repoTile_hover_shadow;
     }
 
     &__title {
@@ -28,17 +28,17 @@
         text-overflow: ellipsis;
     }
 
-    &__org-link {
+    &__orgLink {
         font-size: 14px;
         color: $primary_color;
     }
 
-    &__org-link {
+    &__orgLink {
         color: $primary_color;
         text-decoration: none;
     }
 
-    &__org-link:hover {
+    &__orgLink:hover {
         color: $link_active_color;
     }
 
@@ -57,26 +57,26 @@
         flex-shrink: 0;
     }
 
-    &__additional-info {
+    &__additionalInfo {
         font-size: 14px;
         color: $primary_color;
         margin-bottom: 0;
     }
 
-    &__additional-info {
+    &__additionalInfo {
         display: inline-block;
     }
 
-    &__additional-info > * {
+    &__additionalInfo > * {
         vertical-align: middle;
     }
 
-    &__icon-raiting {
+    &__iconRaiting {
         margin-left: 0;
         margin-right: 4px;
     }
 
-    &__date-info {
+    &__dateInfo {
         margin-left: 20px;
     }
 }

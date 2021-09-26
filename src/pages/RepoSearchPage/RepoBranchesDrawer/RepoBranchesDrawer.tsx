@@ -6,7 +6,7 @@ import { BranchItem } from '@store/GitHubStore/types';
 import { Drawer } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { useStoreContext } from '../../App';
+import { useStoreContext } from '../../../App';
 import styles from './RepoBranchesDrawer.module.scss';
 
 const RepoBranchesDrawer: React.FC = () => {

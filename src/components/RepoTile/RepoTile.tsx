@@ -22,26 +22,23 @@ const RepoTile: React.FC<RepoTileProps> = ({
     onClick
 }): JSX.Element => {
     return (
-        <div className={`${styles['repo-tile']}`} onClick={onClick}>
-            <div className={`${styles['repo-tile__avatar']}`}>
+        <div className={`${styles.repoTile}`} onClick={onClick}>
+            <div className={`${styles.repoTile__avatar}`}>
                 <Avatar src={avatar_url} letter={login.slice(1)} />
             </div>
-            <div className={`${styles['repo-tile__content']}`}>
-                <div className={`${styles['repo-tile__title']}`}>{name}</div>
-                <a
-                    className={`${styles['repo-tile__org-link']}`}
-                    href={html_url}
-                >
+            <div className={`${styles.repoTile__content}`}>
+                <div className={`${styles.repoTile__title}`}>{name}</div>
+                <a className={`${styles.repoTile__orgLink}`} href={html_url}>
                     {login}
                 </a>
-                <div className={`${styles['repo-tile__additional-info']}`}>
-                    <span className={`${styles['repo-tile__icon-raiting']}`}>
+                <div className={`${styles.repoTile__additionalInfo}`}>
+                    <span className={`${styles.repoTile__iconRaiting}`}>
                         <StarIcon />
                     </span>
-                    <span className={`${styles['repo-tile__raiting-info']}`}>
+                    <span className={`${styles.repoTile__raitingInfo}`}>
                         {stargazers_count}
                     </span>
-                    <span className={`${styles['repo-tile__date-info']}`}>
+                    <span className={`${styles.repoTile__dateInfo}`}>
                         {`Updated ${dateFormat(updated_at)}`}
                     </span>
                 </div>

@@ -10,13 +10,9 @@ export type AvatarProps = {
 
 const Avatar: React.FC<AvatarProps> = ({ src, alt, letter }): JSX.Element => {
     return (
-        <div className={`${styles['avatar']}`}>
+        <div className={`${styles.avatar}`}>
             {src ? (
-                <img
-                    src={src}
-                    alt={alt}
-                    className={`${styles['avatar__img']}`}
-                />
+                <img src={src} alt={alt} className={`${styles.avatar__img}`} />
             ) : (
                 letter
             )}
