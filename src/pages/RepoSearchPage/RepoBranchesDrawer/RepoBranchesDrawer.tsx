@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import 'antd/dist/antd.css';
 import useBranchesContext from '@shared/hooks/useBranchesContext';

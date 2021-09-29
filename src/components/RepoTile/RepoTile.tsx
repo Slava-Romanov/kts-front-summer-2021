@@ -3,7 +3,6 @@ import React from 'react';
 import Avatar from '@components/Avatar';
 import StarIcon from '@components/StarIcon';
 import { GithubRepoItemModel } from '@store/models/github/githubRepoItem';
-import { RepoItem } from '@store/models/types';
 import { dateFormat } from '@utils/utils';
 
 import styles from './RepoTile.module.scss';

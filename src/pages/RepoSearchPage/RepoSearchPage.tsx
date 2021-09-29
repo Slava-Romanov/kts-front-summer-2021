@@ -17,8 +17,8 @@ import RepoBranchesDrawer from './RepoBranchesDrawer';
 import styles from './RepoSearchPage.module.scss';
 
 const RepoSearchPage: React.FC = () => {
-    const history = useHistory();
     const store = useReposContext(StoreContext);
+    const history = useHistory();
 
     const onClickRepo =
         (repo: GithubRepoItemModel): (() => void) =>
@@ -29,12 +29,6 @@ const RepoSearchPage: React.FC = () => {
     const repoTiles = () => {
         if (store?.meta === Meta.loading) {
             return <div>Ищем репозитории</div>;
-        } else if (store?.meta === Meta.error) {
-            return (
-                <div>
-                    Что-то пошло не так. Пожалуйста, перезагрузите страницу
-                </div>
-            );
         } else if (store?.repos.length) {
             return store?.repos.map(
                 (repo: GithubRepoItemModel): JSX.Element => {
@@ -79,6 +73,12 @@ const RepoSearchPage: React.FC = () => {
                         >
                             {repoTiles()}
                         </InfiniteScroll>
+                    ) : null}
+                    {store?.meta === Meta.error ? (
+                        <div>
+                            Что-то пошло не так. Пожалуйста, перезагрузите
+                            страницу
+                        </div>
                     ) : null}
                 </div>
             </div>

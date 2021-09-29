@@ -72,15 +72,11 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
     }
 
     async searchRepo(): Promise<void> {
-        await runInAction(async () => {
+        runInAction(() => {
             this._repos = getInitialCollectionModel();
             this._meta = Meta.loading;
             this.page = 1;
-            await this.getOrganizationReposList({
-                organizationName: this.searchName,
-                page: this.page
-            });
-            //RootStore.query.setParam('search', this.searchName);
+            RootStore.query.setParam('search', this.searchName);
         });
     }
 
@@ -147,11 +143,12 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
     private readonly _qsReaction: IReactionDisposer = reaction(
         () => RootStore.query.getParam('search'),
         (search) => {
+            // eslint-disable-next-line no-console
+            console.log(this.searchName, '123'); // почему при первом вызове пусто?
             if (search) {
-                // этот участок кода работает странно
                 this.getOrganizationReposList({
                     organizationName: search.toString(),
-                    page: this.page
+                    page: 1
                 });
             }
         }

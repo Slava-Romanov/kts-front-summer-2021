@@ -1,7 +1,6 @@
 import { Context, useContext } from 'react';
 
 import BranchListStore from '@store/BranchListStore';
-import ReposListStore from '@store/ReposListStore';
 
 import { GithubContextType } from '../../App';
 
