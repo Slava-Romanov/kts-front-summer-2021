@@ -21,7 +21,7 @@ const RepoBranchesDrawer: React.FC = () => {
             ownerName: owner,
             repoName: repo
         });
-    });
+    }, [store, owner, repo]);
 
     const onClose = () => {
         history.goBack();

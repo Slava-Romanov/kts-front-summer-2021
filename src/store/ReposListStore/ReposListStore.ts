@@ -21,10 +21,8 @@ import { Meta } from '@utils/meta';
 import {
     action,
     computed,
-    IReactionDisposer,
     makeObservable,
     observable,
-    reaction,
     runInAction
 } from 'mobx';
 
@@ -62,9 +60,9 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
     }
 
     async nextRepos(): Promise<void> {
-        await runInAction(async () => {
-            this.page += 1;
-            await this.getOrganizationReposList({
+        runInAction(() => {
+            this.page++;
+            this.getOrganizationReposList({
                 organizationName: this.searchName,
                 page: this.page
             });
@@ -76,12 +74,16 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
             this._repos = getInitialCollectionModel();
             this._meta = Meta.loading;
             this.page = 1;
-            RootStore.query.setParam('search', this.searchName);
+            this.getOrganizationReposList({
+                organizationName: this.searchName,
+                page: this.page
+            });
         });
     }
 
     setInputValue(value: string): void {
         this.searchName = value;
+        RootStore.query.setParam('search', this.searchName);
     }
 
     async getOrganizationReposList(
@@ -137,20 +139,20 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
         this._meta = Meta.initial;
         this.page = 1;
         this.searchName = '';
-        this._qsReaction();
+        //this._qsReaction();
     }
 
-    private readonly _qsReaction: IReactionDisposer = reaction(
-        () => RootStore.query.getParam('search'),
-        (search) => {
-            // eslint-disable-next-line no-console
-            console.log(this.searchName, '123'); // почему при первом вызове пусто?
-            if (search) {
-                this.getOrganizationReposList({
-                    organizationName: search.toString(),
-                    page: 1
-                });
-            }
-        }
-    );
+    // private readonly _qsReaction: IReactionDisposer = reaction(
+    //     () => RootStore.query.getParam('search'),
+    //     (search) => {
+    //         // eslint-disable-next-line no-console
+    //         console.log(this.searchName, '123'); // почему при первом вызове пусто?
+    //         // if (search) {
+    //         //     this.getOrganizationReposList({
+    //         //         organizationName: search.toString(),
+    //         //         page: 1
+    //         //     });
+    //         // }
+    //     }
+    // );
 }

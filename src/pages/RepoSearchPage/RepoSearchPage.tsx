@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Button from '@components/Button/Button';
 import Input from '@components/Input/Input';
@@ -6,11 +6,13 @@ import RepoTile from '@components/RepoTile/RepoTile';
 import SearchIcon from '@components/SearchIcon';
 import { urls } from '@config/urls';
 import useReposContext from '@shared/hooks/useReposContext';
+import RootStore from '@shared/store/RootStore';
 import { GithubRepoItemModel } from '@store/models/github/githubRepoItem';
 import { Meta } from '@utils/meta';
 import { observer } from 'mobx-react-lite';
+import qs from 'qs';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import { StoreContext } from '../../App';
 import RepoBranchesDrawer from './RepoBranchesDrawer';
@@ -19,6 +21,20 @@ import styles from './RepoSearchPage.module.scss';
 const RepoSearchPage: React.FC = () => {
     const store = useReposContext(StoreContext);
     const history = useHistory();
+    const location = useLocation();
+    const parsed = qs.parse(location.search, { ignoreQueryPrefix: true });
+
+    useEffect(() => {
+        queryParse();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const queryParse = () => {
+        if (parsed && parsed.search) {
+            RootStore.query.setParam('search', parsed?.search.toString());
+            store?.setInputValue(parsed?.search.toString());
+        }
+    };
 
     const onClickRepo =
         (repo: GithubRepoItemModel): (() => void) =>

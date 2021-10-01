@@ -5,14 +5,13 @@ import { HTTPMethod } from '@shared/store/RootStore/ApiStore/types';
 import {
     GithubBranchItemApi,
     GithubBranchItemModel,
-    normalizeGithubBranchItem
+    normalizeCollectionGithubBranchItemModel
 } from '@store/models/github/githubBranch';
 import { GetReposBranchesListParams, IGitHubStore } from '@store/models/types';
 import {
     CollectionT,
     getInitialCollectionModel,
-    linearizeCollection,
-    normalizeCollection
+    linearizeCollection
 } from '@utils/collection';
 import { Meta } from '@utils/meta';
 import {
@@ -63,13 +62,8 @@ export default class BranchListStore implements IGitHubStore, ILocalStore {
             }
             try {
                 this._meta = Meta.success;
-                const branches: GithubBranchItemModel[] = [];
-                response.data.forEach((element: GithubBranchItemApi) => {
-                    branches.push(normalizeGithubBranchItem(element));
-                });
-                this._branches = normalizeCollection(
-                    branches,
-                    (item) => item.name
+                this._branches = normalizeCollectionGithubBranchItemModel(
+                    response.data
                 );
                 return;
             } catch (e) {
