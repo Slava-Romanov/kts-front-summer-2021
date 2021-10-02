@@ -59,16 +59,17 @@ export default class BranchListStore implements IGitHubStore, ILocalStore {
         runInAction(() => {
             if (!response.success) {
                 this._meta = Meta.error;
-            }
-            try {
-                this._meta = Meta.success;
-                this._branches = normalizeCollectionGithubBranchItemModel(
-                    response.data
-                );
-                return;
-            } catch (e) {
-                this._meta = Meta.error;
-                this._branches = getInitialCollectionModel();
+            } else {
+                try {
+                    this._meta = Meta.success;
+                    this._branches = normalizeCollectionGithubBranchItemModel(
+                        response.data
+                    );
+                    return;
+                } catch (e) {
+                    this._meta = Meta.error;
+                    this._branches = getInitialCollectionModel();
+                }
             }
         });
     }

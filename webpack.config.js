@@ -98,6 +98,31 @@ module.exports = {
         }
     },
     devServer: {
+        static: {
+            directory: path.join(__dirname, 'public')
+        },
+        onBeforeSetupMiddleware: function (devServer) {
+            devServer.app.get('*', (req, res, next) => {
+                if (
+                    !(
+                        req.url.endsWith('.svg') ||
+                        req.url.endsWith('.png') ||
+                        req.url.endsWith('.jpg') ||
+                        req.url.endsWith('.js') ||
+                        req.url.endsWith('.css') ||
+                        req.url.endsWith('.ico') ||
+                        req.url.endsWith('.ttf') ||
+                        req.url.endsWith('.woff') ||
+                        req.url.endsWith('.woff2') ||
+                        req.url.endsWith('.App.map') ||
+                        req.url.endsWith('.json')
+                    )
+                ) {
+                    req.url = '/';
+                }
+                next('route');
+            });
+        },
         host: '127.0.0.1',
         port: 3008,
         hot: true

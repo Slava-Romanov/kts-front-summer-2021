@@ -105,23 +105,27 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
         runInAction(() => {
             if (!response.success) {
                 this._meta = Meta.error;
-            }
-            try {
-                const repos: GithubRepoItemModel[] = [];
-                for (const item of response.data) {
-                    repos.push(normalizeGithubRepoItemModel(item));
+                if (response.data.message === 'Not Found') {
+                    this._meta = Meta.notFound;
                 }
-                const prev = linearizeCollection(this._repos);
-                const all = prev.concat(repos);
-                this._meta = Meta.success;
-                this._repos = normalizeCollection(
-                    all,
-                    (RepoItem) => RepoItem.id
-                );
-                return;
-            } catch (e) {
-                this._meta = Meta.error;
-                this._repos = getInitialCollectionModel();
+            } else {
+                try {
+                    const repos: GithubRepoItemModel[] = [];
+                    for (const item of response.data) {
+                        repos.push(normalizeGithubRepoItemModel(item));
+                    }
+                    const prev = linearizeCollection(this._repos);
+                    const all = prev.concat(repos);
+                    this._meta = Meta.success;
+                    this._repos = normalizeCollection(
+                        all,
+                        (RepoItem) => RepoItem.id
+                    );
+                    return;
+                } catch (e) {
+                    this._meta = Meta.error;
+                    this._repos = getInitialCollectionModel();
+                }
             }
         });
     }

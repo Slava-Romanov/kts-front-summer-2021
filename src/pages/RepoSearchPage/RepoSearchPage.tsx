@@ -96,6 +96,9 @@ const RepoSearchPage: React.FC = () => {
                             страницу
                         </div>
                     ) : null}
+                    {store?.meta === Meta.notFound ? (
+                        <div>Ничего не найдено</div>
+                    ) : null}
                 </div>
             </div>
             <Switch>
