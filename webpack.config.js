@@ -12,7 +12,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const getSettingsForStyles = (withModules = false) => {
     const styles = [
-        MiniCssExtractPlugin.loader,
+        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
         !withModules
             ? 'css-loader'
             : {
@@ -25,19 +25,27 @@ const getSettingsForStyles = (withModules = false) => {
                       }
                   }
               },
-        'sass-loader'
-    ];
-
-    if (isProd) {
-        styles.push({
+        {
             loader: 'postcss-loader',
             options: {
                 postcssOptions: {
                     plugins: ['autoprefixer']
                 }
             }
-        });
-    }
+        },
+        'sass-loader'
+    ];
+
+    // if (isProd) {
+    //     styles.push({
+    //         loader: 'postcss-loader',
+    //         options: {
+    //             postcssOptions: {
+    //                 plugins: ['autoprefixer']
+    //             }
+    //         }
+    //     });
+    // }
 
     return styles;
 };

@@ -33,6 +33,7 @@ const RepoSearchPage: React.FC = () => {
         if (parsed && parsed.search) {
             RootStore.query.setParam('search', parsed?.search.toString());
             store?.setInputValue(parsed?.search.toString());
+            store?.searchRepo();
         }
     };
 
