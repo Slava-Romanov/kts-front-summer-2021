@@ -35,11 +35,13 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
 
     public page = 1;
     public searchName = '';
+    public _searchNameNow = '';
 
     constructor() {
         makeObservable<ReposListStore, PrivateFields>(this, {
             _repos: observable.ref,
             _meta: observable,
+            _searchNameNow: observable,
             repos: computed,
             meta: computed,
             getOrganizationReposList: action,
@@ -47,7 +49,7 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
             searchRepo: action.bound,
             setInputValue: action.bound,
             page: observable,
-            searchName: observable
+            searchName: observable,
         });
     }
 
@@ -63,7 +65,7 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
         runInAction(() => {
             this.page++;
             this.getOrganizationReposList({
-                organizationName: this.searchName,
+                organizationName: this._searchNameNow,
                 page: this.page
             });
         });
@@ -73,6 +75,7 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
         runInAction(() => {
             this._repos = getInitialCollectionModel();
             this._meta = Meta.loading;
+            this._searchNameNow = this.searchName;
             this.page = 1;
             this.getOrganizationReposList({
                 organizationName: this.searchName,
