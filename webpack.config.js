@@ -36,17 +36,6 @@ const getSettingsForStyles = (withModules = false) => {
         'sass-loader'
     ];
 
-    // if (isProd) {
-    //     styles.push({
-    //         loader: 'postcss-loader',
-    //         options: {
-    //             postcssOptions: {
-    //                 plugins: ['autoprefixer']
-    //             }
-    //         }
-    //     });
-    // }
-
     return styles;
 };
 
@@ -106,6 +95,7 @@ module.exports = {
         }
     },
     devServer: {
+        historyApiFallback: true,
         static: {
             directory: path.join(__dirname, 'public')
         },
